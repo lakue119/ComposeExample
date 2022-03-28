@@ -2,11 +2,16 @@ package com.lakue.composeexample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -14,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role.Companion.Image
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NewStory()
+            MyLazyColumn()
         }
     }
 
@@ -70,6 +76,60 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
 
+    @Preview
+    @Composable
+    fun ImageBlur() {
+        setContent {
+
+        }
+    }
+
+    private val itemsList = (0..2000).toList()
+    private val itemsIndexedList = listOf("A", "B", "C")
+
+    @Composable
+    fun MyLazyColumn() {
+        LazyColumn {
+            items(itemsList) {
+                Row(
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Text(
+                        "Item",
+                        textAlign = TextAlign.Start
+                    )
+                    Text(
+                        "is",
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        "$it",
+                        textAlign = TextAlign.End
+                    )
+                }
+
+                Image(
+                    painter = painterResource(id = R.drawable.zenitsu_agatsuma2),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .height(180.dp)
+                        .fillMaxWidth()
+                        .clip(shape = RoundedCornerShape(4.dp)),
+                    contentScale = ContentScale.Crop,
+                )
+
+            }
+
+            item {
+                Text("Single item")
+            }
+
+            itemsIndexed(itemsIndexedList) { index, item ->
+                Text("Item at index $index is $item")
+            }
+        }
     }
 }
